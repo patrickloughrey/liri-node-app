@@ -33,9 +33,10 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
  			console.log("\n");
 	}
  
-});
+}); 
 
 /* Spotify API function */
+
 spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
 
     if (err) {
@@ -55,4 +56,33 @@ spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(er
     console.log(clc.green("Album Name: ") + track_info.album.name);
     console.log("\n");
 
-});
+}); 
+
+/* Use Request to make an HTTP call to OMDB API */
+	var movie = function(choice_info) { 
+
+	request('http://www.omdbapi.com/?t=saving+private+ryan&y=&plot=short&tomatoes=true&r=json', function (error, response, body) {
+
+  		if (!error && response.statusCode == 200) {
+  				var movie = JSON.parse(body);
+    		 	console.log(clc.green("Title: ") + movie.Title);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Released: ") + movie.Released);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("IMDB Rating: ") + movie.imdbRating);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Country of Production: ") + movie.Country);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Language: ") + movie.Language);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Plot: ") + movie.Plot);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Actors: ") + movie.Actors);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Rotten Tomatoes Rating: ") + movie.tomatoRating);
+    		 	console.log(clc.blue("-----------------------------------------------------------"));
+    		 	console.log(clc.green("Rotten Tomatoes URL: ") + movie.tomatoURL);
+  		}
+	});
+
+};
