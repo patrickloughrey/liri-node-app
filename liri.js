@@ -20,16 +20,39 @@ var client = new Twitter({
   access_token_secret: 'xSuAHqqH68nQgBXoQtNj67dTDzOtloxjTj5etijYb19yC'
 });
 
-/* Functions to communicate with APIs */
+/* Twitter API function */
 var params = {screen_name: 'RU_Patrick001'};
+
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
-		var i = 0;
-		for(i = 0; i < 5; i++) {
-				console.log(clc.green(tweets[i].user.screen_name) + clc.green(":"));
-				console.log(clc.blue("Tweeted: ") + tweets[i].text);
-				console.log(clc.blue("Tweeted at: ") + tweets[i].created_at);
-				console.log("\n");
-		}
+ 	var i = 0;
+ 	for(i = 0; i < 5; i++) {
+			console.log(clc.green(tweets[i].user.screen_name) + clc.green(":"));
+ 			console.log(clc.blue("Tweeted: ") + tweets[i].text);
+			console.log(clc.blue("Tweeted at: ") + tweets[i].created_at);
+ 			console.log("\n");
+	}
  
+});
+
+/* Spotify API function */
+spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
+
+    if (err) {
+        console.log('Error occurred: ' + err);
+        return;
+
+    } 
+
+    var track_info = data.tracks.items[0];
+    console.log("\n");
+    console.log(clc.green("Artist: " + track_info.artists[0].name));
+    console.log(clc.blue("-------------------------------------------------"));
+    console.log(clc.green("Track Name: ") + track_info.name);
+    console.log(clc.blue("-------------------------------------------------"));
+    console.log(clc.green("Link to Preview: ") + track_info.preview_url);
+    console.log(clc.blue("-------------------------------------------------"));
+    console.log(clc.green("Album Name: ") + track_info.album.name);
+    console.log("\n");
+
 });
