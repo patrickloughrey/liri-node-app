@@ -9,6 +9,8 @@ var clc = require('cli-color');
 /* Require API keys */
 var js = require('./keys.js');
 
+/* Require fs package for reading random.txt */
+
 /* Place Twitter API credentials into a variable */
 var tkeys = js.twitterKeys;
 
@@ -21,47 +23,53 @@ var client = new Twitter({
 });
 
 /* Twitter API function */
-var params = {screen_name: 'RU_Patrick001'};
+/*function tweet() { 
 
-client.get('statuses/user_timeline', params, function(error, tweets, response) {
+	var params = {screen_name: 'RU_Patrick001'};
 
- 	var i = 0;
- 	for(i = 0; i < 5; i++) {
+	client.get('statuses/user_timeline', params, function(error, tweets, response) {
+
+ 		var i = 0;
+ 		for(i = 0; i < 5; i++) {
 			console.log(clc.green(tweets[i].user.screen_name) + clc.green(":"));
  			console.log(clc.blue("Tweeted: ") + tweets[i].text);
 			console.log(clc.blue("Tweeted at: ") + tweets[i].created_at);
  			console.log("\n");
 	}
  
-}); 
+	}); 
 
-/* Spotify API function */
+}; */
 
-spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
+/* Spotify API function */ /*
+function search(choice_info) { 
+	spotify.search({ type: 'track', query: choice_info }, function(err, data) {
 
-    if (err) {
+    	if (err) {
         console.log('Error occurred: ' + err);
         return;
 
-    } 
+    	} 
 
-    var track_info = data.tracks.items[0];
-    console.log("\n");
-    console.log(clc.green("Artist: " + track_info.artists[0].name));
-    console.log(clc.blue("-------------------------------------------------"));
-    console.log(clc.green("Track Name: ") + track_info.name);
-    console.log(clc.blue("-------------------------------------------------"));
-    console.log(clc.green("Link to Preview: ") + track_info.preview_url);
-    console.log(clc.blue("-------------------------------------------------"));
-    console.log(clc.green("Album Name: ") + track_info.album.name);
-    console.log("\n");
+    	var track_info = data.tracks.items[0];
+    	console.log("\n");
+    	console.log(clc.green("Artist: " + track_info.artists[0].name));
+    	console.log(clc.blue("-------------------------------------------------"));
+    	console.log(clc.green("Track Name: ") + track_info.name);
+    	console.log(clc.blue("-------------------------------------------------"));
+    	console.log(clc.green("Link to Preview: ") + track_info.preview_url);
+    	console.log(clc.blue("-------------------------------------------------"));
+    	console.log(clc.green("Album Name: ") + track_info.album.name);
+    	console.log("\n");
 
-}); 
+	});
+
+};  */
 
 /* Use Request to make an HTTP call to OMDB API */
-	var movie = function(choice_info) { 
+var movie = function(choice_info) { 
 
-	request('http://www.omdbapi.com/?t=saving+private+ryan&y=&plot=short&tomatoes=true&r=json', function (error, response, body) {
+	request('http://www.omdbapi.com/?t=' + choice_info + '&y=&plot=short&tomatoes=true&r=json', function (error, response, body) {
 
   		if (!error && response.statusCode == 200) {
   				var movie = JSON.parse(body);
@@ -82,7 +90,40 @@ spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(er
     		 	console.log(clc.green("Rotten Tomatoes Rating: ") + movie.tomatoRating);
     		 	console.log(clc.blue("-----------------------------------------------------------"));
     		 	console.log(clc.green("Rotten Tomatoes URL: ") + movie.tomatoURL);
+    		 	console.log("\n");
   		}
 	});
 
+}; 
+
+
+function makeChoice(choice, choice_info) {
+
+		switch(choice) {
+				case 'my-tweets':
+					tweet();
+					break;
+
+				case 'movie-this':
+					if(choice_info) {
+							movie(choice_info);
+					}
+					break;
+
+				case 'spotify-this-song':
+					if(choice_info) {
+							search(choice_info);
+					}
+					break;
+
+				default:
+					console.log("Sorry, I did not understand your input. Try again.");
+		}
+
 };
+
+/* Pass makeChoice function command-line arguments */
+makeChoice(process.argv[2], process.argv[3]);
+
+
+
