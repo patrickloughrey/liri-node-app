@@ -3,6 +3,9 @@ var Twitter = require('twitter');
 var spotify = require('spotify');
 var request = require('request');
 
+/* NPM package to add color */
+var clc = require('cli-color');
+
 /* Require API keys */
 var js = require('./keys.js');
 
@@ -23,9 +26,9 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
 		var i = 0;
 		for(i = 0; i < 5; i++) {
-				console.log(tweets[i].user.screen_name);
-				console.log("Tweeted: " + tweets[i].text);
-				console.log("Tweeted at: " + tweets[i].created_at);
+				console.log(clc.green(tweets[i].user.screen_name) + clc.green(":"));
+				console.log(clc.blue("Tweeted: ") + tweets[i].text);
+				console.log(clc.blue("Tweeted at: ") + tweets[i].created_at);
 				console.log("\n");
 		}
  
