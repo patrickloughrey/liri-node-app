@@ -10,6 +10,7 @@ var clc = require('cli-color');
 var js = require('./keys.js');
 
 /* Require fs package for reading random.txt */
+var fs = require("fs");
 
 /* Place Twitter API credentials into a variable */
 var tkeys = js.twitterKeys;
@@ -23,7 +24,7 @@ var client = new Twitter({
 });
 
 /* Twitter API function */
-/*function tweet() { 
+function tweet() { 
 
 	var params = {screen_name: 'RU_Patrick001'};
 
@@ -39,9 +40,9 @@ var client = new Twitter({
  
 	}); 
 
-}; */
+}; 
 
-/* Spotify API function */ /*
+/* Spotify API function */ 
 function search(choice_info) { 
 	spotify.search({ type: 'track', query: choice_info }, function(err, data) {
 
@@ -64,7 +65,7 @@ function search(choice_info) {
 
 	});
 
-};  */
+};  
 
 /* Use Request to make an HTTP call to OMDB API */
 var movie = function(choice_info) { 
@@ -96,6 +97,16 @@ var movie = function(choice_info) {
 
 }; 
 
+/* NPM file-system package function */
+function fileHandler() {
+
+		fs.readFile("random.txt", "utf8", function(error,data) {
+				var file_choice;
+				file_choice = data.split(',');
+				return(makeChoice(file_choice[0], file_choice[1]));
+		});
+};
+ 
 
 function makeChoice(choice, choice_info) {
 
@@ -107,17 +118,28 @@ function makeChoice(choice, choice_info) {
 				case 'movie-this':
 					if(choice_info) {
 							movie(choice_info);
+
+					} else {
+							movie('Mr. Nobody');
 					}
 					break;
 
 				case 'spotify-this-song':
 					if(choice_info) {
 							search(choice_info);
+
+					} else {
+							search('The Sign Ace of Base');
 					}
 					break;
 
+				case 'do-what-it-says':
+						fileHandler();
+						break;
+
 				default:
 					console.log("Sorry, I did not understand your input. Try again.");
+					break;
 		}
 
 };
